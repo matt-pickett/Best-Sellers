@@ -1,0 +1,64 @@
+﻿@page
+@model NewLeaderboard.Pages.Leaderboard.IndexModel
+
+@{
+    ViewData["Title"] = "Leaderboard";
+}
+
+<h1>Leaderboard</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentSearch" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                    @Html.DisplayNameFor(model => model.UserObj[0].Name)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserObj[0].Rank.Score)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.RankSort">
+                @Html.DisplayNameFor(model => model.UserObj[0].Rank.RankID)
+                </a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.UserObj) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rank.Score)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Rank.RankID)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.UserID">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.UserID">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.UserID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+
