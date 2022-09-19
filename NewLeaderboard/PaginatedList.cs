@@ -1,4 +1,4 @@
-﻿// Microsoft supplied Paging class
+﻿// Microsoft Paging class
 
 using System;
 using System.Collections.Generic;
@@ -28,6 +28,7 @@ namespace NewLeaderboard
         public static async Task<PaginatedList<T>> CreateAsync(
             IQueryable<T> source, int pageIndex, int pageSize)
         {
+            // Source is just a queryable instance of User Entity (leaderboardOps)
             var count = await source.CountAsync();
             var items = await source.Skip(
                 (pageIndex - 1) * pageSize)

@@ -13,7 +13,7 @@
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by name:
+            Find by name or rank:
             <input type="text" name="SearchString" value="@Model.CurrentSearch" />
             <input type="submit" value="Search" class="btn btn-primary" /> |
             <a asp-page="./Index">Back to full List</a>
@@ -24,7 +24,8 @@
     <thead>
         <tr>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                asp-route-currentSearch="@Model.CurrentSearch">
                     @Html.DisplayNameFor(model => model.UserObj[0].Name)
                 </a>
             </th>
@@ -32,7 +33,8 @@
                 @Html.DisplayNameFor(model => model.UserObj[0].Rank.Score)
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.RankSort">
+                <a asp-page="./Index" asp-route-sortOrder="@Model.RankSort"
+                asp-route-currentSearch="@Model.CurrentSearch">
                 @Html.DisplayNameFor(model => model.UserObj[0].Rank.RankID)
                 </a>
             </th>
@@ -61,4 +63,23 @@
     </tbody>
 </table>
 
+<!---C#-->
+@{
+    var prevDisabled = !Model.UserObj.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.UserObj.HasNextPage ? "disabled" : "";
+}
 
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.UserObj.PageIndex - 1)"
+   asp-route-currentSearch="@Model.CurrentSearch"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.UserObj.PageIndex + 1)"
+   asp-route-currentSearch="@Model.CurrentSearch"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
