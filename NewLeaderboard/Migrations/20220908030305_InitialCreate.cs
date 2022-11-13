@@ -27,7 +27,7 @@ namespace NewLeaderboard.Migrations
                 {
                     RankID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Score = table.Column<int>(type: "int", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

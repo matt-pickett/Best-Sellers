@@ -2,10 +2,10 @@
 @model NewLeaderboard.Pages.Leaderboard.IndexModel
 
 @{
-    ViewData["Title"] = "Leaderboard";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Leaderboard</h1>
+<h1>New York Times' Best Sellers</h1>
 
 <p>
     <a asp-page="Create">Create New</a>
@@ -30,7 +30,7 @@
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserObj[0].Rank.Score)
+                @Html.DisplayNameFor(model => model.UserObj[0].Rank.Title)
             </th>
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.RankSort"
@@ -48,7 +48,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Rank.Score)
+                @Html.DisplayFor(modelItem => item.Rank.Title)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Rank.RankID)

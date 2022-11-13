@@ -2,6 +2,30 @@
 using Microsoft.Extensions.DependencyInjection;
 using NewLeaderboard.Models;
 using NewLeaderboard.Data;
+/*
+using System.Net.Http.Headers;
+
+using HttpClient client = new();
+client.DefaultRequestHeaders.Accept.Clear();
+client.DefaultRequestHeaders.Accept.Add(
+    new MediaTypeWithQualityHeaderValue("application/vnd.github.v3+json"));
+client.DefaultRequestHeaders.Add("User-Agent", ".NET Foundation Repository Reporter");
+
+await ProcessRepositoriesAsync(client);
+
+static async Task ProcessRepositoriesAsync(HttpClient client)
+{
+    var json = await client.GetStringAsync(
+         "https://jsonplaceholder.typicode.com/todos");
+
+    Console.Write(json);
+}
+*/
+
+// Make a call to web API
+/*NewLeaderboard.HttpClientObj clientObj = new NewLeaderboard.HttpClientObj();
+await clientObj.API();*/
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

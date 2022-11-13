@@ -11,7 +11,7 @@ namespace NewLeaderboard.Models
         public int RankID { get; set; }
 
         // Data should be: score or ELO rating
-        public int Score { get; set; }
+        public string Title { get; set; }
 
         // Foreign Key
         public int UserID { get; set; }

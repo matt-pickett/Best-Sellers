@@ -14,7 +14,7 @@ namespace NewLeaderboard.Data
         {
         }
 
-        public DbSet<NewLeaderboard.Models.User> User { get; set; } = default!;
-        public DbSet<NewLeaderboard.Models.Rank> Rank { get; set; } = default!;
+        public DbSet<User> User { get; set; } = default!;
+        public DbSet<Rank> Rank { get; set; } = default!;
     }
 }

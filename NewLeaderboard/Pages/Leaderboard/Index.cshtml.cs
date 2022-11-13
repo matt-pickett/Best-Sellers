@@ -64,6 +64,7 @@ namespace NewLeaderboard.Pages.Leaderboard
             }
 
             // Change sort value
+            CurrentSort = sortOrder;
             switch (sortOrder)
             {
                 case "name_desc":
@@ -80,6 +81,7 @@ namespace NewLeaderboard.Pages.Leaderboard
                     leaderboardOps = leaderboardOps.OrderBy(user => user.Rank.RankID);
                     break;
             }
+            
             // Get "Page Size" value from appsettings.json, set it to 5 if can't be found
             var pageSize = Configuration.GetValue("PageSize", 5);
 
