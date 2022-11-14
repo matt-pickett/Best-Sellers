@@ -20,40 +20,40 @@ namespace NewLeaderboard.Pages.Leaderboard
         }
 
         [BindProperty]
-      public User UserObj { get; set; }
+      public Author AuthorObj { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.Author == null)
             {
                 return NotFound();
             }
 
-            var user = await _context.User.FirstOrDefaultAsync(m => m.UserID == id);
+            var author = await _context.Author.FirstOrDefaultAsync(m => m.AuthorID == id);
 
-            if (user == null)
+            if (author == null)
             {
                 return NotFound();
             }
             else 
             {
-                UserObj = user;
+                AuthorObj = author;
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.Author == null)
             {
                 return NotFound();
             }
-            var user = await _context.User.FindAsync(id);
+            var author = await _context.Author.FindAsync(id);
 
-            if (user != null)
+            if (author != null)
             {
-                UserObj = user;
-                _context.User.Remove(UserObj);
+                AuthorObj = author;
+                _context.Author.Remove(AuthorObj);
                 await _context.SaveChangesAsync();
             }
 

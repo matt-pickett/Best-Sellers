@@ -25,7 +25,7 @@ namespace NewLeaderboard.Pages.Leaderboard
         }
 
         [BindProperty]
-        public User UserObj { get; set; }
+        public Author AuthorObj { get; set; }
 
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
@@ -36,7 +36,7 @@ namespace NewLeaderboard.Pages.Leaderboard
                 return Page();
             }
 
-            _context.User.Add(UserObj);
+            _context.Author.Add(AuthorObj);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Index");

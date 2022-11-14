@@ -13,11 +13,11 @@
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="UserObj.UserID" />
+            <input type="hidden" asp-for="AuthorObj.AuthorID" />
             <div class="form-group">
-                <label asp-for="UserObj.Name" class="control-label"></label>
-                <input asp-for="UserObj.Name" class="form-control" />
-                <span asp-validation-for="UserObj.Name" class="text-danger"></span>
+                <label asp-for="AuthorObj.Name" class="control-label"></label>
+                <input asp-for="AuthorObj.Name" class="form-control" />
+                <span asp-validation-for="AuthorObj.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

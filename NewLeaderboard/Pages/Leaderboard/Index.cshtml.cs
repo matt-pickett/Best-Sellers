@@ -23,12 +23,12 @@ namespace NewLeaderboard.Pages.Leaderboard
         }
 
         // Values get queried in the view
-        public string NameSort { get; set; }
+        public string TitleSort { get; set; }
         public string RankSort { get; set; }
         public string CurrentSearch{ get; set; }
         public string CurrentSort { get; set; }
 
-        public PaginatedList<User> UserObj { get; set; } = default!;
+        public PaginatedList<Author> AuthorObj { get; set; } = default!;
 
 
         // These args are set when they get referenced by "asp-route" in the view
@@ -36,13 +36,13 @@ namespace NewLeaderboard.Pages.Leaderboard
         public async Task OnGetAsync(string sortOrder, string searchString, string currentSearch, int? pageIndex)
         {
 
-            IQueryable<User> leaderboardOps = from s in _context.User
+            IQueryable<Author> leaderboardOps = from s in _context.Author
                                               select s;
 
             // '? :' is conditional ternary operator which evaluates to true or false (just an if else statement)
             // All it really does is make it alternate sorting by ascending and descending,
             // starting with ascending
-            NameSort = sortOrder == "name" ? "name_desc" : "name";
+            TitleSort = sortOrder == "title" ? "title_desc" : "title";
             RankSort = String.IsNullOrEmpty(sortOrder) ? "rank_desc" : "";
 
             // Paging
@@ -60,37 +60,36 @@ namespace NewLeaderboard.Pages.Leaderboard
             CurrentSearch = searchString;
             if (!String.IsNullOrEmpty(searchString))
             {
-                leaderboardOps = leaderboardOps.Where(user => user.Name.Contains(searchString) || (user.Rank.RankID).ToString() == (searchString));
+                leaderboardOps = leaderboardOps.Where(author => author.Book.Title.Contains(searchString) || (author.Book.Rank).ToString() == (searchString));
             }
 
             // Change sort value
             CurrentSort = sortOrder;
             switch (sortOrder)
             {
-                case "name_desc":
-                    leaderboardOps = leaderboardOps.OrderByDescending(user => user.Name);
+                case "title_desc":
+                    leaderboardOps = leaderboardOps.OrderByDescending(author => author.Book.Title);
                     break;
-                case "name":
-                    leaderboardOps = leaderboardOps.OrderBy(user  => user.Name);
+                case "title":
+                    leaderboardOps = leaderboardOps.OrderBy(author  => author.Book.Title);
                     break;
                 case "rank_desc":
-                    leaderboardOps = leaderboardOps.OrderByDescending(user => user.Rank.RankID);
+                    leaderboardOps = leaderboardOps.OrderByDescending(author => author.Book.Rank);
                     break;
-                // Rank ascending is the default sorting value
                 default:
-                    leaderboardOps = leaderboardOps.OrderBy(user => user.Rank.RankID);
+                    leaderboardOps = leaderboardOps.OrderBy(author => author.Book.Rank);
                     break;
             }
             
             // Get "Page Size" value from appsettings.json, set it to 5 if can't be found
             var pageSize = Configuration.GetValue("PageSize", 5);
 
-            UserObj = await PaginatedList<User>
+            AuthorObj = await PaginatedList<Author>
                 .CreateAsync(
                     leaderboardOps
                     // Also initialize Rank as part of User (it has foreign key to User)
                     // it can be called by 'userObj.Rank'
-                    .Include(user => user.Rank)
+                    .Include(author => author.Book)
                     .AsNoTracking(), 
                     // If pageIndex exists, set it to that, otherwise 1
                     pageIndex ?? 1, 

@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿// To revert back to this migration, first Drop-Database
+// then type Update-Database InitialCreate (the name of this migration)
+
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 

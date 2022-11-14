@@ -1,7 +1,10 @@
-﻿using System;
+﻿// Edit doesn't work - error on line 51 'ClaimsDetails' not found
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -21,34 +24,34 @@ namespace NewLeaderboard.Pages.Leaderboard
         }
 
         [BindProperty]
-        public User UserObj { get; set; } = default!;
+        public Author AuthorObj { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null || _context.User == null)
+            if (id == null || _context.Author == null)
             {
                 return NotFound();
             }
 
-            var user =  await _context.User.FirstOrDefaultAsync(m => m.UserID == id);
-            if (user == null)
+            var author =  await _context.Author.FirstOrDefaultAsync(m => m.AuthorID == id);
+            if (author == null)
             {
                 return NotFound();
             }
-            UserObj = user;
+            AuthorObj = author;
             return Page();
         }
 
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(int id)
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
-            _context.Attach(User).State = EntityState.Modified;
+            _context.Attach(AuthorObj).State = EntityState.Modified;
 
             try
             {
@@ -56,7 +59,7 @@ namespace NewLeaderboard.Pages.Leaderboard
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(UserObj.UserID))
+                if (!UserExists(AuthorObj.AuthorID))
                 {
                     return NotFound();
                 }
@@ -71,7 +74,7 @@ namespace NewLeaderboard.Pages.Leaderboard
 
         private bool UserExists(int id)
         {
-          return _context.User.Any(e => e.UserID == id);
+          return _context.Author.Any(e => e.AuthorID == id);
         }
     }
 }
