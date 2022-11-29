@@ -2,39 +2,45 @@
 using Microsoft.Extensions.DependencyInjection;
 using BestSellers.Models;
 using BestSellers.Data;
-
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddDbContext<BestSellersContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("BestSellersContext") ?? throw new InvalidOperationException("Connection string 'BestSellersContext' not found.")));
-
-var app = builder.Build();
-
-// Seed Database
-using (var scope = app.Services.CreateScope())
+try
 {
-    var services = scope.ServiceProvider;
+    var builder = WebApplication.CreateBuilder(args);
+    // Add services to the container.
+    builder.Services.AddRazorPages();
+    builder.Services.AddDbContext<BestSellersContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("BestSellersContext") ?? throw new InvalidOperationException("Connection string 'BestSellersContext' not found.")));
 
-    SeedData.Initialize(services);
+    var app = builder.Build();
+
+    // Seed Database
+    using (var scope = app.Services.CreateScope())
+    {
+        var services = scope.ServiceProvider;
+
+        SeedData.Initialize(services);
+    }
+
+    // Configure the HTTP request pipeline.
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Error");
+        // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+        app.UseHsts();
+    }
+
+    app.UseHttpsRedirection();
+    app.UseStaticFiles();
+
+    app.UseRouting();
+
+    app.UseAuthorization();
+
+    app.MapRazorPages();
+
+    app.Run();
+
 }
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+catch (Exception ex)
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    await File.WriteAllTextAsync("Error.txt", ex.Message);
 }
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapRazorPages();
-
-app.Run();
